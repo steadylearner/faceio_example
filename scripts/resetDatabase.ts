@@ -1,10 +1,13 @@
 import fs from "fs/promises";
-import { Sequelize } from '@sequelize/core';
+// import { Sequelize } from '@sequelize/core';
+
+import {
+  sqlite,
+  sequelize,
+} from "../db";
 
 (async () => {
   try {
-    const sqlite = "./database.db";
-
     try {
       const sqliteExsits = await fs.stat(sqlite);
       // console.log("sqliteExsits");
@@ -16,11 +19,6 @@ import { Sequelize } from '@sequelize/core';
     } catch (error) {
       // console.error(error);
     }
-    
-    const sequelize = new Sequelize({
-      dialect: 'sqlite',
-      storage: sqlite,
-    })
     
     // console.log(sequelize);
 
