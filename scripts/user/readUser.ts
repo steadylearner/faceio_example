@@ -13,11 +13,11 @@ const User = require('../../models/user')(sequelize, DataTypes);
   
   await sequelize.sync();
 
-  const id = prompt('What is the id for a user to read? ');
+  const facialId = prompt('What is the facialId for a user to read? ');
 
   const dbUser = await User.findOne({
     where: {
-      id
+      facialId
     }
   });
 

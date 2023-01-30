@@ -13,7 +13,7 @@ const User = require('../../models/user')(sequelize, DataTypes);
   
   await sequelize.sync();
 
-  const id = prompt('What is the id for a user to update? ');
+  const facialId = prompt('What is the facialId for a user to update? ');
   const name = prompt('What is the name for a new user? ', 'Name');
   const email = prompt('What is the email for a new user? ', "email@example.com");
 
@@ -24,7 +24,7 @@ const User = require('../../models/user')(sequelize, DataTypes);
     }, 
     {
       where: {
-        id
+        facialId,
       }
     }
   );

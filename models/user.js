@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, UUIDV4
 } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: UUIDV4,
+    },
+    facialId: DataTypes.STRING,
     name: DataTypes.STRING,
     email: DataTypes.STRING
   }, {

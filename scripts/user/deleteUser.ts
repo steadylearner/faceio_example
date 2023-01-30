@@ -13,11 +13,11 @@ const User = require('../../models/user')(sequelize, DataTypes);
   
   await sequelize.sync();
 
-  const id = prompt('What is the id for a user to delete? ');
+  const facialId = prompt('What is the facialId for a user to delete? ');
 
   await User.destroy({
     where: {
-      id
+      facialId
     }
   });
 

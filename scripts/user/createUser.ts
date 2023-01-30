@@ -13,10 +13,12 @@ const User = require('../../models/user')(sequelize, DataTypes);
   
   await sequelize.sync();
 
+  const facialId = prompt('What is the facialId for a new user? ', 'test');
   const name = prompt('What is the name for a new user? ', 'Name');
   const email = prompt('What is the email for a new user? ', "email@example.com");
 
   const newUser = await User.create({
+    facialId,
     name,
     email,
   });
