@@ -1,11 +1,11 @@
 import { DataTypes } from "sequelize";
 
-import prompt from "./prompt";
+import prompt from "../prompt";
 import {
   sequelize,
-} from "../db";
+} from "../../db";
 
-const User = require('../models/user')(sequelize, DataTypes);
+const User = require('../../models/user')(sequelize, DataTypes);
 
 // tsconfig.json
 // "target": "ES2022",

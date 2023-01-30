@@ -9,11 +9,11 @@
     "lint": "next lint",
     "fix": "next lint --fix",
     "reset-database": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./scripts/resetDatabase.ts",
-    "create-user": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./scripts/createUser.ts",
-    "read-user": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./scripts/readUser.ts",
-    "list-user": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./scripts/listUser.ts",
-    "update-user": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./scripts/updateUser.ts",
-    "delete-user": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./scripts/deleteUser.ts"
+    "create-user": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./scripts/user/createUser.ts",
+    "read-user": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./scripts/user/readUser.ts",
+    "list-users": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./scripts/user/listUsers.ts",
+    "update-user": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./scripts/user/updateUser.ts",
+    "delete-user": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./scripts/user/deleteUser.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
