@@ -22,7 +22,11 @@ const User = require('../../models/user')(sequelize, DataTypes);
   });
 
   console.log("dbUser");
-  console.log(dbUser);
+  if (dbUser !== null) {
+    console.log(dbUser.toJSON());
+  } else {
+    console.log(dbUser);
+  }
 
 
 })();

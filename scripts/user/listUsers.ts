@@ -16,7 +16,11 @@ const User = require('../../models/user')(sequelize, DataTypes);
     // const users = await User.findAll();
     const { count, rows } = await User.findAndCountAll();
 
-    // console.log(rows);
+    console.log("count");
     console.log(count);
+
+    for (let row of rows) {
+        console.log(row.toJSON());
+    } 
 
 })();

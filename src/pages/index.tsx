@@ -8,6 +8,8 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 import { useAuthentication } from "../contexts/authenticaiton";
+import { validateName, validateEmail } from "../validateUser";
+import { toast } from "react-toastify";
 
 export default function Home() {
 
@@ -194,7 +196,7 @@ export default function Home() {
 
                       value={email}
                       onChange={e => {
-                        setEmail(e.target.value);
+                        setEmail(e.target.value.toLowerCase());
                       }}
                     />
                   </div>
@@ -217,6 +219,15 @@ export default function Home() {
                     type="button"
 
                     onClick={async () => {
+                      if (validateName(name) === false) {
+                        toast.info("");
+                        return;
+                      }
+                      if (validateEmail(email) === false) {
+                        toast.info("");
+                        return;
+                      }
+                      
                       await enrollNewUser(name, email);
                     }}
                   >

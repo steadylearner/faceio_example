@@ -3,6 +3,9 @@ const {
   Model, UUIDV4
 } = require('sequelize');
 
+// Test with this
+// https://www.npmjs.com/package/sequelize-test-helpers
+// https://sequelize.org/docs/v6/core-concepts/validations-and-constraints/
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -17,12 +20,38 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     id: {
       type: DataTypes.UUID,
+      allowNull: false,
       primaryKey: true,
       defaultValue: UUIDV4,
     },
-    facialId: DataTypes.STRING,
-    name: DataTypes.STRING,
-    email: DataTypes.STRING
+    facialId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+
+      validate: {
+        notEmpty: true,
+      },
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+
+      validate: {
+        notEmpty: true,
+      },
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+
+      validate: {
+        notEmpty: true,
+        isEmail: true,
+        isLowercase: true,
+      },
+    },
   }, {
     sequelize,
     modelName: 'User',
