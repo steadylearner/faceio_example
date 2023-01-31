@@ -16,8 +16,6 @@ export default withNextCorsSessionRoute(async (req, res) => {
     return;
   }
 
-  // const user = await getUsers().where("username", req.body.username).first();
-
   const { facialId } = req.body as UserBase;
   const dbUser = await User.findOne({
     where: {
@@ -26,11 +24,21 @@ export default withNextCorsSessionRoute(async (req, res) => {
   });
 
   if (dbUser === null) {
-    res.status(400).send("");
+    res.status(400).send({
+      error: "Sign Up first"
+    });
   } else {
-    req.session.user = dbUser.toJSON();
+    const {
+      facialId,
+      ...user
+    } = dbUser.toJSON();
+
+    req.session.user = user;
     await req.session.save();
-    res.status(200).send("");
+    
+    res.json({
+      user,
+    })
   }
 
 });

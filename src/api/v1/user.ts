@@ -35,7 +35,7 @@ export const apiLogin = async (facialId: string) => {
     }),
   });
 
-  return res.status;
+  return (await res.json());
 };
 
 export const apiLogout = async () => {

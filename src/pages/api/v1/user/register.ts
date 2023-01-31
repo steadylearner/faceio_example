@@ -7,6 +7,7 @@ import {
 
 import { withNextCorsSessionRoute } from "../../../../withSession";
 import validateUser, { UserValidationResult } from "../../../../validateUser";
+import { UserCreate } from "../../../../../schemas/user";
 
 // import { CORS_ALLOWED_ORGIN } from "../../../../environment";
 
@@ -29,9 +30,8 @@ export default withNextCorsSessionRoute(async (req, res) => {
   const { 
     facialId, 
     name, 
-    email 
-  } = req.body;
-  // const { facialId, name,  } = req.body as;
+    email,
+  } = req.body as UserCreate;
 
   const dbUserByFacialId = await User.findOne({
     where: {

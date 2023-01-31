@@ -42,7 +42,7 @@ declare module "iron-session" {
   interface IronSessionData {
     user?: {
       id: string;
-      facialId: string;
+      // facialId: string;
       name: string;
       email: string;
       createdAt: Date;

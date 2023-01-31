@@ -1,9 +1,11 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 import faceIO from '@faceio/fiojs';
 
 import { FIO_APPLICATION_PUBLIC_ID } from "../environment";
+import { apiLogin, apiLogout } from "../api/v1/user";
 
 const AuthenticationContext = createContext({});
 
@@ -57,8 +59,10 @@ const handleFioError = (error) => {
 };
 
 export const AuthenticationProvider = ({ children }) => {
+  const router = useRouter();
 
   const [fio, setFio] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     setFio(new faceIO(FIO_APPLICATION_PUBLIC_ID));
@@ -83,6 +87,7 @@ export const AuthenticationProvider = ({ children }) => {
         "locale": "auto", // Default user locale
 
         // This will be from userData at authenticateUser
+        // No need for this part?
         "payload": {
           name,
           email,
@@ -115,16 +120,35 @@ export const AuthenticationProvider = ({ children }) => {
       const userData = await fio.authenticate({
         "locale": "auto", // Default user locale
       });
+      
+      const { facialId } = userData;
+      const { user, error } = await apiLogin(facialId);
 
-      console.log("Success, user identified");
-      // Grab the facial ID linked to this particular user which will be same
-      // for each of his successful future authentication. FACEIO recommend 
-      // that your rely on this Facial ID if you plan to uniquely identify 
-      // all enrolled users on your backend for example.
-      console.log("Linked facial Id: " + userData.facialId);
-      // Grab the arbitrary data you have already linked (if any) to this particular user
-      // during his enrollment via the payload parameter of the enroll() method.
-      console.log("Payload: " + JSON.stringify(userData.payload)); // {"whoami": 123456, "email": "john.doe@example.com"} from the enroll() example above
+      // alert(facialId);
+
+      if (error) {
+        toast.error(error);
+        return;
+      }
+
+      if (user) {
+        // alert(JSON.stringify(user));
+        setUser(user);
+      }
+
+      // console.log("response");
+      // console.log(response);
+      // alert(JSON.stringify(response));
+
+      // console.log("Success, user identified");
+      // // Grab the facial ID linked to this particular user which will be same
+      // // for each of his successful future authentication. FACEIO recommend 
+      // // that your rely on this Facial ID if you plan to uniquely identify 
+      // // all enrolled users on your backend for example.
+      // console.log("Linked facial Id: " + userData.facialId);
+      // // Grab the arbitrary data you have already linked (if any) to this particular user
+      // // during his enrollment via the payload parameter of the enroll() method.
+      // console.log("Payload: " + JSON.stringify(userData.payload)); // {"whoami": 123456, "email": "john.doe@example.com"} from the enroll() example above
 
     } catch (error) {
       console.error(error);
@@ -135,9 +159,20 @@ export const AuthenticationProvider = ({ children }) => {
     
   }
 
-  // async function logout () {
+  async function logout () {
+    try {
+      await apiLogout();
+  
+      setUser(null);
+      const restarted = await restartSession();
 
-  // }
+      router.push("/");
+
+    } catch (error) {
+      console.error(error);
+      toast.error(error);
+    }
+  }
 
   // There should be api to delete the app after login also
   // remove user?
@@ -148,6 +183,11 @@ export const AuthenticationProvider = ({ children }) => {
 
       enrollNewUser, // sign in
       authenticateUser, // sign up
+
+      user,
+      setUser,
+      
+      logout
     }}>
       {children}
     </AuthenticationContext.Provider>
