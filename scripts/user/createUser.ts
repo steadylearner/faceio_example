@@ -10,7 +10,6 @@ const User = require('../../models/user')(sequelize, DataTypes);
 // tsconfig.json
 // "target": "ES2022",
 (async () => {
-  
   await sequelize.sync();
 
   const facialId = prompt('What is the facialId for a new user? ', 'test');

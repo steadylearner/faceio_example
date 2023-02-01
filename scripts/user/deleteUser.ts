@@ -13,21 +13,30 @@ const User = require('../../models/user')(sequelize, DataTypes);
   
   await sequelize.sync();
 
-  const facialId = prompt('What is the facialId for a user to delete? ');
+  const deleteUsers = prompt('Do you want to delete all users? (Y/n) ', "n");
 
-  const destroyedUserCount = await User.destroy({
-    where: {
-      facialId
-    }
-  });
+  if (deleteUsers === "Y") {
+    const truncatedUserCount = await User.truncate();
+    console.log("truncatedUserCount");
+    console.log(truncatedUserCount);
+  } else {
+    const facialId = prompt('What is the facialId for a user to delete? ');
 
-  console.log("destroyedUserCount");
-  console.log(destroyedUserCount);
+    const destroyedUserCount = await User.destroy({
+      where: {
+        facialId
+      }
+    });
 
-  // sqlite3 database.db 
-  // SELECT * FROM users;
+    console.log("destroyedUserCount");
+    console.log(destroyedUserCount);
 
-  // const { count, rows } = await User.findAndCountAll();
-  // console.log(rows);
-  // console.log(count);
+    // sqlite3 database.db 
+    // SELECT * FROM users;
+
+    // const { count, rows } = await User.findAndCountAll();
+    // console.log(rows);
+    // console.log(count);
+  }
+
 })();
