@@ -4,12 +4,12 @@ import { useRouter } from "next/router";
 
 import faceIO from '@faceio/fiojs';
 
-import { FIO_APPLICATION_PUBLIC_ID } from "../environment";
+import { FACEIO_APPLICATION_PUBLIC_ID } from "../environment";
 import { apiLogin, apiLogout } from "../api/v1/user";
 
 const AuthenticationContext = createContext({});
 
-const handleFioError = (error) => {
+const handlefaceIoError = (error) => {
   // Log all possible error codes during user interaction..
   // Refer to https://faceio.net/integration-guide#error-codes, https://faceio.net/getting-started
   
@@ -47,9 +47,9 @@ const handleFioError = (error) => {
   case error.EMPTY_ORIGIN:
     return "Origin or Referer HTTP request header is empty or missing";
   case error.FORBIDDDEN_ORIGIN:
-    return "Domain origin is forbidden from instantiating fio.js";
+    return "Domain origin is forbidden from instantiating faceIo.js";
   case error.FORBIDDDEN_COUNTRY:
-    return "Country ISO-3166-1 Code is forbidden from instantiating fio.js";
+    return "Country ISO-3166-1 Code is forbidden from instantiating faceIo.js";
   case error.SESSION_IN_PROGRESS:
     return "Another authentication or enrollment session is in progress";
   case error.NETWORK_IO:
@@ -61,18 +61,17 @@ const handleFioError = (error) => {
 export const AuthenticationProvider = ({ children }) => {
   const router = useRouter();
 
-  const [fio, setFio] = useState(null);
+  const [faceIo, setFaceIo] = useState(null);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setFio(new faceIO(FIO_APPLICATION_PUBLIC_ID));
-    // alert(process.env.NEXT_PUBLIC_FIO_APPLICATION_PUBLIC_ID);
+    setFaceIo(new faceIO(FACEIO_APPLICATION_PUBLIC_ID));
 
     toast.info("Connected to faceio");
   }, []);
 
   async function restartSession() {
-    const restarted = await fio.restartSession({});
+    const restarted = await faceIo.restartSession({});
     return restarted;
   }
 
@@ -83,15 +82,16 @@ export const AuthenticationProvider = ({ children }) => {
     // }));
 
     try {
-      const userInfo = await fio.enroll({
-        "locale": "auto", // Default user locale
+      const userInfo = await faceIo.enroll({
+        // "locale": "auto", // Default user locale
+        "locale": "en", // Default user locale
 
         // This will be from userData at authenticateUser
         // No need for this part?
-        "payload": {
-          name,
-          email,
-        }
+        // "payload": {
+        //   name,
+        //   email,
+        // }
       });
 
       // Send this to queries?
@@ -108,7 +108,7 @@ export const AuthenticationProvider = ({ children }) => {
 
     } catch (error) {
       console.error(error);
-      toast.error(handleFioError(error));
+      toast.error(handlefaceIoError(error));
 
       const restarted = await restartSession();
     }
@@ -117,8 +117,9 @@ export const AuthenticationProvider = ({ children }) => {
 
   async function authenticateUser() {
     try {
-      const userData = await fio.authenticate({
-        "locale": "auto", // Default user locale
+      const userData = await faceIo.authenticate({
+        // "locale": "auto", // Default user locale
+        "locale": "en", // Default user locale
       });
       
       const { facialId } = userData;
@@ -153,7 +154,7 @@ export const AuthenticationProvider = ({ children }) => {
 
     } catch (error) {
       console.error(error);
-      toast.error(handleFioError(error));
+      toast.error(handlefaceIoError(error));
 
       const restarted = await restartSession();
     }

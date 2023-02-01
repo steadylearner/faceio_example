@@ -12,7 +12,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 import { useAuthentication } from "../contexts/authenticaiton";
 import { validateName, validateEmail } from "../validateUser";
-import { apiUpdateUserProfile } from "../api/v1/user";
+import { apiDeleteUser, apiUpdateUserProfile } from "../api/v1/user";
 
 
 export default function Profile() {
@@ -153,7 +153,18 @@ export default function Profile() {
                       cursor: "pointer",
                     }}
 
-                    // onClick={authenticateUser}
+                    onClick={async () => {
+                      const { message, error } = await apiDeleteUser();
+
+                      if (error) {
+                        toast.error(error);
+                        return
+                      }
+
+                      if (message) {
+                        toast.info(message);
+                      }
+                    }}
                   >
                     DELETE ACCOUNT
                   </div>
@@ -244,7 +255,7 @@ export default function Profile() {
                         return;
                       }
 
-                      const { updatedUser, error } = await apiUpdateUserProfile(user.id, name, email);
+                      const { updatedUser, error } = await apiUpdateUserProfile(name, email);
 
                       if (error) {
                         toast.error(error);

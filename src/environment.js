@@ -4,7 +4,9 @@ const config = {
   NODE_ENV: process.env.NODE_ENV,
   API: process.env.NEXT_PUBLIC_API,
 
-  FIO_APPLICATION_PUBLIC_ID: process.env.NEXT_PUBLIC_FIO_APPLICATION_PUBLIC_ID,
+  FACEIO_API: "https://api.faceio.net",
+  FACEIO_API_KEY: process.env.FACEIO_API_KEY,
+  FACEIO_APPLICATION_PUBLIC_ID: process.env.NEXT_PUBLIC_FACEIO_APPLICATION_PUBLIC_ID,
 
   CORS_ALLOWED_ORGIN: process.env.NODE_ENV === "development" ? "*" : CORS_ALLOWED_ORGIN_LIST,
 };

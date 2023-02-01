@@ -4,8 +4,7 @@ import { withNextCorsSessionRoute } from "../../../../withSession";
 import {
   sequelize,
 } from "../../../../../db";
-
-import { UserBase } from "../../../../../schemas/user";
+import { FACEIO_API, FACEIO_API_KEY } from "../../../../environment";
 
 const User = require('../../../../../models/user')(sequelize, DataTypes);
 
@@ -16,7 +15,21 @@ export default withNextCorsSessionRoute(async (req, res) => {
     return;
   }
 
-  const { facialId } = req.body as UserBase;
+  const { facialId } = req.body;
+
+  // Paid API
+  // const { status, error, valid } = await (await fetch(`${FACEIO_API}/checkfacialid?${new URLSearchParams({
+  //   fid: facialId,
+  //   key: FACEIO_API_KEY,
+  // }).toString()}`)).json();
+
+  // if (status !== 200) {
+  //   res.status(400).send({
+  //     error
+  //   });
+  // }
+
+  // if (valid === true) {
   const dbUser = await User.findOne({
     where: {
       facialId
@@ -35,10 +48,17 @@ export default withNextCorsSessionRoute(async (req, res) => {
 
     req.session.user = user;
     await req.session.save();
-    
+
     res.json({
       user,
     })
   }
+  // } else {
+  //   res.status(400).send({
+  //     error: "Invalid facialId"
+  //   });
+  // }
+   
+  
 
 });

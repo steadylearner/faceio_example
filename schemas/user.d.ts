@@ -1,22 +1,18 @@
 interface UserBase {
-  facialId: string;
+  name: string;
+  email: string;
 }
 
 interface CreateUserRequest extends UserBase {
-  name: string;
-  email: string;
+  facialId: string;
 }
 
 interface UpdateUserRequest extends UserBase {
   id: string,
-  name: string;
-  email: string;
 }
 
 interface User extends UserBase {
   id: string;
-  name: string;
-  email: string;
   createdAt: Date;
   updatedAt: Date;
 }

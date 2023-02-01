@@ -46,17 +46,24 @@ export const apiLogout = async () => {
   return res.status;
 };
 
-export const apiUpdateUserProfile = async (id: string, name: string, email: string) => {
+export const apiUpdateUserProfile = async (name: string, email: string) => {
   const res = await fetch("/api/v1/user/profile", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      id,
       name,
       email,
     }),
+  });
+
+  return (await res.json());
+}
+
+export const apiDeleteUser = async () => {
+  const res = await fetch("/api/v1/user/delete", {
+    method: "DELETE",
   });
 
   return (await res.json());

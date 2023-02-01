@@ -15,11 +15,14 @@ const User = require('../../models/user')(sequelize, DataTypes);
 
   const facialId = prompt('What is the facialId for a user to delete? ');
 
-  await User.destroy({
+  const destroyedUserCount = await User.destroy({
     where: {
       facialId
     }
   });
+
+  console.log("destroyedUserCount");
+  console.log(destroyedUserCount);
 
   // sqlite3 database.db 
   // SELECT * FROM users;

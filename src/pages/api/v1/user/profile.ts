@@ -16,36 +16,46 @@ export default withNextCorsSessionRoute(async (req, res) => {
     return;
   }
 
-  const { id, name, email } = req.body as UpdateUserRequest;
-  const usersUpdated = (await User.update(
-    {
-      name,
-      email,
-    },
-    {
-      where: {
-        id,
+  if (req.session.user) {
+    const { id } = req.session.user;
+
+    const { name, email } = req.body as UpdateUserRequest;
+    const usersUpdated = (await User.update(
+      {
+        name,
+        email,
+      },
+      {
+        where: {
+          id,
+        }
       }
-    }
-  ))[0];
+    ))[0];
 
-  if (usersUpdated === 0) {
-    res.status(400).send({
-      error: "Unable to update the proifle"
-    });
+    if (usersUpdated === 0) {
+      res.status(400).send({
+        error: "Unable to update the proifle"
+      });
+    } else {
+      const updatedUser = {
+        ...req.session.user,
+        name,
+        email,
+      }
+
+      req.session.user = updatedUser;
+      await req.session.save();
+
+      res.json({
+        updatedUser,
+      })
+    }
+
   } else {
-    const updatedUser = {
-      ...req.session.user,
-      name,
-      email,
-    }
-
-    req.session.user = updatedUser;
-    await req.session.save();
-    
-    res.json({
-      updatedUser,
-    })
+    res.status(400).send({
+      error: "Login first"
+    });
   }
+
 
 });

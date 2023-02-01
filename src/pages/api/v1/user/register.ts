@@ -33,6 +33,18 @@ export default withNextCorsSessionRoute(async (req, res) => {
     email,
   } = req.body as CreateUserRequest;
 
+  // const { status, error, valid } = await (await fetch(`${FACEIO_API}/checkfacialid?${new URLSearchParams({
+  //   fid: facialId,
+  //   key: FACEIO_API_KEY,
+  // }).toString()}`)).json();
+
+  // if (status !== 200) {
+  //   res.status(400).send({
+  //     error
+  //   });
+  // }
+
+  // if (valid === true) {
   const dbUserByFacialId = await User.findOne({
     where: {
       facialId
@@ -49,7 +61,7 @@ export default withNextCorsSessionRoute(async (req, res) => {
         }
       });
 
-      if(dbUserByEmail !== null) {
+      if (dbUserByEmail !== null) {
         userValidationResult = UserValidationResult.TakenEmail;
       }
     }
@@ -72,4 +84,9 @@ export default withNextCorsSessionRoute(async (req, res) => {
   } else {
     res.status(400).send(UserValidationResult.TakenFacialId);
   }
+  // } else {
+  //   res.status(400).send({
+  //     error: "Invalid facialId"
+  //   });
+  // }
 });

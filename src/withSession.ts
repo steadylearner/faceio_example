@@ -52,9 +52,9 @@ declare module "iron-session" {
 }
 
 const sessionOptions = {
-  cookieName: "site_cookies",
+  cookieName: "SESSION_AUTHENTICATION_CREDENTIAL",
   password:
-    process.env.COOKIE_SECRET ??
+    process.env.SESSION_AUTHENTICATION_CREDENTIAL ??
     (() => {
       throw "No cookie secret";
     })(),
