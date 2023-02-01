@@ -12,7 +12,7 @@ export const validateEmail = (email?: string) =>
   email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 export const validateName = (name?: string) =>
-  name && /^[a-z,A-Z]{2,32}$/.test(name);
+  name && /^[a-zA-Z][a-zA-Z ]{1,32}$/.test(name);
 
 const validateUser = (
   name?: string, 

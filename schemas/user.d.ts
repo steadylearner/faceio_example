@@ -2,7 +2,13 @@ interface UserBase {
   facialId: string;
 }
 
-interface UserCreate extends UserBase {
+interface CreateUserRequest extends UserBase {
+  name: string;
+  email: string;
+}
+
+interface UpdateUserRequest extends UserBase {
+  id: string,
   name: string;
   email: string;
 }
@@ -17,6 +23,7 @@ interface User extends UserBase {
 
 export {
   UserBase,
-  UserCreate,
+  CreateUserRequest,
+  UpdateUserRequest,
   User,
 }

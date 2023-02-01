@@ -1,39 +1,43 @@
-import { useState } from "react";
-import { toast } from "react-toastify";
-
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+
+import { toast } from "react-toastify";
+
 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
-import { validateName, validateEmail } from "../validateUser";
 import { useAuthentication } from "../contexts/authenticaiton";
+import { validateName, validateEmail } from "../validateUser";
+import { apiUpdateUserProfile } from "../api/v1/user";
 
-export default function Home() {
+
+export default function Profile() {
   const router = useRouter();
 
   const {
-    enrollNewUser, 
-    authenticateUser, 
-
     user,
+    setUser,
+    logout,
   } = useAuthentication();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  useEffect(() => {
+    if (user === null) {
+      router.push("/");
+    }
+  }, []);
 
-  if (user !== null) {
-    router.push("/profile");
-    return null;
-  }
+
+  const [name, setName] = useState(user?.name);
+  const [email, setEmail] = useState(user?.email);
 
   return (
     <>
       <Head>
-        <title>Facial Authentication</title>
+        <title>Your Profile</title>
       </Head>
 
       <main>
@@ -60,9 +64,9 @@ export default function Home() {
                 backgroundRepeat: "no-repeat",
                 height: "calc(100vh - 2rem)",
               }}
-              
+
             />
-              
+
           </div>
 
           <div
@@ -76,6 +80,7 @@ export default function Home() {
               style={{
                 backgroundColor: "white",
                 borderRadius: "0.5rem",
+                // height: "100%",
               }}
             >
               <div
@@ -109,8 +114,7 @@ export default function Home() {
                     />
                   </a>
                   <span>
-                    Facial Authentication
-                    {/* Facial Authentication for the Web */}
+                    Your Profile
                   </span>
                 </h1>
 
@@ -129,9 +133,12 @@ export default function Home() {
                       color: "#304073",
                       borderBottom: "0.1rem solid #0d42b2",
                       padding: "0 0 1rem 0",
+
+                      cursor: "pointer",
                     }}
+                    onClick={logout}
                   >
-                    SIGN IN
+                    LOGOUT
                   </div>
                   <div
                     style={{
@@ -146,9 +153,9 @@ export default function Home() {
                       cursor: "pointer",
                     }}
 
-                    onClick={authenticateUser}
+                    // onClick={authenticateUser}
                   >
-                    SIGN UP
+                    DELETE ACCOUNT
                   </div>
                 </nav>
 
@@ -165,7 +172,7 @@ export default function Home() {
                   >
                     <input
                       type="text"
-                      placeholder="Steadylearner"
+                      placeholder="Name"
 
                       style={{
                         borderRadius: "4px",
@@ -192,7 +199,7 @@ export default function Home() {
                   >
                     <input
                       type="email"
-                      placeholder="steady@learner.com"
+                      placeholder="email@example.com"
 
                       style={{
                         borderRadius: "4px",
@@ -213,15 +220,15 @@ export default function Home() {
                   <button
                     style={{
                       marginTop: "2rem",
-                      
+
                       backgroundColor: "#0095ff",
                       border: "1px solid transparent",
                       borderRadius: "0.5rem",
                       boxShadow: "rgb(255 255 255 / 40%) 0 1px 0 0 inset",
-                      
+
                       color: "white",
                       padding: "1rem 0.5rem",
-                      
+
                       cursor: "pointer",
                     }}
 
@@ -236,14 +243,24 @@ export default function Home() {
                         toast.info("Please use a valid email");
                         return;
                       }
-                      
-                      await enrollNewUser(name, email);
+
+                      const { updatedUser, error } = await apiUpdateUserProfile(user.id, name, email);
+
+                      if (error) {
+                        toast.error(error);
+                        return;
+                      }
+
+                      if (updatedUser) {
+                        setUser(updatedUser);
+                        toast.info("Updated");
+                      }
                     }}
                   >
-                    SIGN IN
+                    UPDATE
                   </button>
-                 
-                  
+
+
                 </form>
 
                 <p
@@ -274,13 +291,13 @@ export default function Home() {
                       }}
                     />
                   </a>
-                    
+
                   <a
                     href="https://t.me/steadylearner"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <TelegramIcon 
+                    <TelegramIcon
                       style={{
                         marginRight: "0.5rem",
                       }}
@@ -292,7 +309,7 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <TwitterIcon 
+                    <TwitterIcon
                       style={{
                         marginRight: "0.5rem",
                       }}
@@ -304,7 +321,7 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <LinkedInIcon 
+                    <LinkedInIcon
                       style={{
                         marginRight: "0.5rem",
                       }}
@@ -312,14 +329,12 @@ export default function Home() {
                   </a>
 
                 </div>
-
               </div>
+
             </div>
-           
           </div>
 
         </div>
-        
       </main>
     </>
   );

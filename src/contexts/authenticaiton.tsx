@@ -134,6 +134,7 @@ export const AuthenticationProvider = ({ children }) => {
       if (user) {
         // alert(JSON.stringify(user));
         setUser(user);
+        router.push("/profile")
       }
 
       // console.log("response");
@@ -161,12 +162,13 @@ export const AuthenticationProvider = ({ children }) => {
 
   async function logout () {
     try {
+      const restarted = await restartSession();
       await apiLogout();
   
       setUser(null);
-      const restarted = await restartSession();
 
-      router.push("/");
+      // router.push("/");
+      window.location.href = "/";
 
     } catch (error) {
       console.error(error);
