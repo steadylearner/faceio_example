@@ -163,6 +163,11 @@ export default function Profile() {
 
                       if (message) {
                         toast.info(message);
+
+                        setTimeout(() => {
+                          logout();
+                        }, 6000);
+
                       }
                     }}
                   >

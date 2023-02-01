@@ -4,7 +4,7 @@ import { UserValidationResult } from "../../validateUser";
 // const resultToString = async (res: Response) =>
 //   res.status === 200 ? "" : (await res.text()) ?? `Error ${res.status}`;
 
-export const register = async (
+export const apiRegister = async (
   facialId: string,
   name: string,
   email: string,

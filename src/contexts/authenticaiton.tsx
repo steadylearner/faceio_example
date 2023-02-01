@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 import faceIO from '@faceio/fiojs';
 
 import { FACEIO_APPLICATION_PUBLIC_ID } from "../environment";
-import { apiLogin, apiLogout } from "../api/v1/user";
+import { apiLogin, apiLogout, apiRegister, register } from "../api/v1/user";
+import { UserValidationResult } from "../validateUser";
 
 const AuthenticationContext = createContext({});
 
@@ -67,7 +68,7 @@ export const AuthenticationProvider = ({ children }) => {
   useEffect(() => {
     setFaceIo(new faceIO(FACEIO_APPLICATION_PUBLIC_ID));
 
-    toast.info("Connected to faceio");
+    // toast.info("Connected to faceio");
   }, []);
 
   async function restartSession() {
@@ -82,7 +83,7 @@ export const AuthenticationProvider = ({ children }) => {
     // }));
 
     try {
-      const userInfo = await faceIo.enroll({
+      const { facialId, timestamp, details } = await faceIo.enroll({
         // "locale": "auto", // Default user locale
         "locale": "en", // Default user locale
 
@@ -96,15 +97,28 @@ export const AuthenticationProvider = ({ children }) => {
 
       // Send this to queries?
       // Use userInfo.facialId (this is equal to the payload) and save details at the database
-      const message = `
-        User Successfully Enrolled! Details:
-        Unique Facial ID: ${userInfo.facialId} 
-        Enrollment Date: ${userInfo.timestamp}
-        Gender: ${userInfo.details.gender}
-        Age Approximation: ${userInfo.details.age}
-      `;
+      
+      toast.info("User Successfully Enrolled!");
+      toast.info(`Unique Facial ID: ${facialId}`);
+      toast.info(`Enrollment Date: ${timestamp}`);
+      toast.info(`Gender: ${details.gender}`);
+      toast.info(`Age Approximation: ${details.age}`);
 
-      toast.info(message);
+      const registerResult = (await apiRegister(facialId, name, email)) as UserValidationResult; 
+      if (UserValidationResult.None === registerResult) {
+        toast.info("Your account was created");
+        toast.info("Use the sign up button to login");
+        
+        // These don't work
+        // await restartSession();
+        // await authenticateUser();
+        
+        setTimeout(() => {
+          window.location.reload();
+        }, 6000);
+      } else {
+        toast.error(registerResult.toString())
+      }
 
     } catch (error) {
       console.error(error);
