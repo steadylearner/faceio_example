@@ -9,6 +9,10 @@
 
 [Next js sqlize repository]: https://github.com/FlafyDev/next-js-sqlite 
 
+[You can follow me at GitHub.]: https://github.com/steadylearner
+
+[You can contact or hire me at Telegram.]: https://t.me/steadylearner
+
 # How to make a full stack facial authentication app with FaceIo and Next js
 
 ![app/auth](./examples/app/auth.png)
@@ -728,9 +732,11 @@ export function withSessionSsr<
 }
 ```
 
-Most part of it is from [iron-session] and [Next js sqlize repository] example but you can see this was included to use CORS for all Next js api routes.
+Most part of it is to make [iron-session] work to save user data at session and withNextCors function is included to use CORS for all Next js api routes and wrap the `const withSessionHandler = withIronSessionApiRoute(handler, sessionOptions);` to use CORS along with session.
 
 ```ts
+import NextCors from 'nextjs-cors';
+
 function withNextCors(
   handler: NextApiHandler,
 ): NextApiHandler {
@@ -746,10 +752,124 @@ function withNextCors(
     return handler(req, res);
   };
 }
+
+export function withNextCorsSessionRoute(handler: NextApiHandler) {
+
+  const withSessionHandler = withIronSessionApiRoute(handler, sessionOptions);
+  return withNextCors(withSessionHandler);
+}
 ```
 
+It was not easy to make the example for this while we have [nextjs-cors](https://www.npmjs.com/package/nextjs-cors) you can use for a handler. With this set up, you will be able to use session and CORS at the same time for all Next js api routes.
 
+You will be able to test if CORS is working with this or not. You can use your browser console and use `fetch('http://localhost:3000/api/v1/user/logout');` and it will show CORS related errors if you use CORS_ALLOWED_ORIGIN other than "*".
 
+You can see the example use case at the user end point or logout and others.
+
+```ts
+import { DataTypes } from "sequelize";
+
+import { withNextCorsSessionRoute } from "../../../../withSession";
+import {
+  sequelize,
+} from "../../../../../db";
+
+import { UpdateUserRequest } from "../../../../../schemas/user";
+
+const User = require('../../../../../models/user')(sequelize, DataTypes);
+
+// https://www.npmjs.com/package/next-connect
+export default withNextCorsSessionRoute(async (req, res) => {
+  if (req.method !== "PATCH") {
+    res.status(405).send("");
+    return;
+  }
+
+  if (req.session.user) {
+    const { id } = req.session.user;
+
+    const { name, email } = req.body as UpdateUserRequest;
+    const usersUpdated = (await User.update(
+      {
+        name,
+        email,
+      },
+      {
+        where: {
+          id,
+        }
+      }
+    ))[0];
+
+    if (usersUpdated === 0) {
+      res.status(400).send({
+        error: "Unable to update the proifle"
+      });
+    } else {
+      const updatedUser = {
+        ...req.session.user,
+        name,
+        email,
+      }
+
+      req.session.user = updatedUser;
+      await req.session.save();
+
+      res.json({
+        updatedUser,
+      })
+    }
+
+  } else {
+    res.status(400).send({
+      error: "Login first"
+    });
+  }
+});
+```
+
+For facialId is used like unique password here, it will be better to be include more safety method like CORS and others whenever possible.
+
+Therefore, we can also use the [checkfacilid api from FaceIO](https://faceio.net/rest-api#checkfacialid) to see the facialId from the frontend is really from FaceIO.
+
+It is a paid API so you will need to see [FACEIO pricing] and see which plan to use if you want to use it.
+
+```ts
+const { status, error, valid } = await (await fetch(`${FACEIO_API}/checkfacialid?${new URLSearchParams({
+  fid: facialId,
+  key: FACEIO_API_KEY,
+}).toString()}`)).json();
+
+if (status !== 200) {
+  res.status(400).send({
+    error
+  });
+}
+
+if (valid === true) {
+  // Continue here
+}
+```
+
+## Conclusion
+
+I hope having this example and blog post was helpful to you start to testing the facial authenticaiton app with [FaceIO][FACEIO website].
+
+It will be also useful as a Next js and Sqlite full stack app example.
+
+[You can follow me at GitHub.]: https://github.com/steadylearner
+
+[You can contact or hire me at Telegram.]: https://t.me/steadylearner
+
+<!-- [The post was written because of this.](https://www.reddit.com/r/forhire/comments/10jspes/hiring_reactjs_and_react_native_content_writers/) -->
+## Read More
+
+These are other blog posts and the docs that I thought can be useful. You can read them if you want more details.
+
+[FaceIo dev guides](https://faceio.net/dev-guides)
+[How to Authenticate a User via Face Recognition in Your Web Application]https://hackernoon.com/how-to-authenticate-a-user-via-face-recognition-in-your-web-application
+[How to use Facial Recognition to Enhance user Experience ?]https://sosha.hashnode.dev/how-to-use-facial-recognition-to-enhance-user-experience 
+[How to Authenticate a User with Face Recognition in React.js]https://www.freecodecamp.org/news/authenticate-with-face-recognition-reactjs/
 
 
 

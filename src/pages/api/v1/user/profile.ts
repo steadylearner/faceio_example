@@ -56,6 +56,4 @@ export default withNextCorsSessionRoute(async (req, res) => {
       error: "Login first"
     });
   }
-
-
 });
