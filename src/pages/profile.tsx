@@ -10,7 +10,7 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
-import { useAuthentication } from "../contexts/authenticaiton";
+import { useAuthentication } from "../contexts/authentication";
 import { validateName, validateEmail } from "../validateUser";
 import { apiDeleteUser, apiUpdateUserProfile } from "../api/v1/user";
 

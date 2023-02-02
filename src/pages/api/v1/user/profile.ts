@@ -34,7 +34,7 @@ export default withNextCorsSessionRoute(async (req, res) => {
 
     if (usersUpdated === 0) {
       res.status(400).send({
-        error: "Unable to update the proifle"
+        error: "Unable to update the profile"
       });
     } else {
       const updatedUser = {

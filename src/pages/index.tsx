@@ -10,7 +10,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 import { validateName, validateEmail } from "../validateUser";
-import { useAuthentication } from "../contexts/authenticaiton";
+import { useAuthentication } from "../contexts/authentication";
 
 export default function Home() {
   const router = useRouter();

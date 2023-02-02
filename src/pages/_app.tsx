@@ -2,7 +2,7 @@ import React from "react";
 import type { AppProps } from "next/app";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import { AuthenticationProvider } from "../contexts/authenticaiton";
+import { AuthenticationProvider } from "../contexts/authentication";
 import Toastify from "../components/Toastify";
 
 import 'react-toastify/dist/ReactToastify.css';

@@ -7,19 +7,20 @@
 [iron-session]: https://www.npmjs.com/package/iron-session
 [sequelize-cli]: https://www.npmjs.com/package/sequelize-cli
 
-[Next js sqlize repository]: https://github.com/FlafyDev/next-js-sqlite 
+[Next js sequelize repository]: https://github.com/FlafyDev/next-js-sqlite 
 
 [You can follow me at GitHub.]: https://github.com/steadylearner
 
 [You can contact or hire me at Telegram.]: https://t.me/steadylearner
 
+<!-- https://dev.to/steadylearner/how-to-make-a-full-stack-facial-authentication-app-with-faceio-and-next-js-3dh/ -->
 # How to make a full stack facial authentication app with FaceIo and Next js
 
-![app/auth](./examples/app/auth.png)
+![app/auth](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/app/auth.png)
 
-With the growing interest in [ChatGPT](https://openai.com/blog/chatgpt/), people will start to use more data scienece and machine learning tech behind it, I am sure this year and on a lot of new techs relevant to them will be around us.
+With the growing interest in [ChatGPT](https://openai.com/blog/chatgpt/), people will start to use more data science and machine learning tech behind it, I am sure this year and on a lot of new techs relevant to them will be around us.
 
-Therefore, I decided to make a simple facial authenticaiton full stack app with [FACEIO][FACEIO website] and Next js. When you end following this blog post, you will have an app similar to the cover of this blog post.
+Therefore, I decided to make a simple facial authentication full stack app with [FACEIO][FACEIO website] and Next js. When you end following this blog post, you will have an app similar to the cover of this blog post.
 
 ## What is FACEIO?
 
@@ -31,7 +32,7 @@ Facial Authentication for the Web
 Cross Browser, Secure & Easy to implement, Passwordless Authentication powered by Face Recognition for Web Sites
 ```
 
-![Homepage](./examples/faceio/homepage.png)
+![Homepage](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/faceio/homepage.png)
 
 But, you can simply think they will help your users to make accounts at your website with facial authentication process. Instead of investing a lot to make the facial recognition service used behind to work, you can use their service isntead and save a lot of dev time.
 
@@ -39,21 +40,21 @@ You might think it would be difficult to use it like I did. But, you can see how
 
 It uses the [Next js](https://nextjs.org/) for the frontend and backend server and [Sqlite](https://www.sqlite.org/index.html) for the database. They are both easy to set up and with the commands I will share you, it won't be difficult to test the example on your own as well.
 
-![Console](./examples/faceio/console.png)
+![Console](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/faceio/console.png)
 
 Before you test the code at [FACEIO example] repository, please visit [FACEIO console] and make a test account. You will not be charged and will be using the free FREEMIUM option as a default. This will be enough to test the code shared for this so don't worry about that.
 
 If you want to, you can visit [FACEIO pricing] to see more details.
 
-![Pricing](./examples/faceio/pricing.png)
+![Pricing](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/faceio/pricing.png)
 
 Then, you can make a new application by following the process and you will have **Application Public ID** at the end that will be used at the frontend of your app. 
 
-![Dashboard](./examples/faceio/new.png)
+![New](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/faceio/new.png)
 
 You can also find FACEIO_API_KEY at manage application page that will be used to remove facial ids you will have later.
 
-![Dashboard](./examples/faceio/dashboard.png)
+![Dashboard](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/faceio/dashboard.png)
 
 ## Prepare a .env file
 
@@ -78,13 +79,13 @@ $yarn
 $yarn dev 
 ```
 
-But, to make the backend work as well, you will need to set up the sqlite database first. I have prepared the script while I referred to [Next js sqlize repository]. It has not much documentation for it, but it will be useful if you want to write more advanced examples later.
+But, to make the backend work as well, you will need to set up the sqlite database first. I have prepared the script while I referred to [Next js sequelize repository]. It has not much documentation for it, but it will be useful if you want to write more advanced examples later.
 
 ```console
 $yarn reset-database
 ```
 
-The command will create a new database.db file or reset it if you already have the file. Then, you can use `$npx sequelize-cli init` command below to make migraitons folder and other files to help you use sqlite database.
+The command will create a new database.db file or reset it if you already have the file. Then, you can use `$npx sequelize-cli init` command below to make migrations folder and other files to help you use sqlite database.
 
 You will see config/config.json file is created in your folder. It is also already included in the repository.
 
@@ -115,7 +116,7 @@ You should edit it in case you want to use another database. For more details, p
 
 By the way, if you want to use Postgresql, you can refer to this blog post https://dev.to/steadylearner/how-to-set-up-postgresql-and-pgadmin-with-docker-51h
 
-Then, you can use this comamnd to make your first migraiton file for users we will use for the facial authentication app. It will create a create-user.js migraiton file at migrations folder.
+Then, you can use this commmand to make your first migration file for users we will use for the facial authentication app. It will create a create-user.js migration file at migrations folder.
 
 
 ```console
@@ -172,7 +173,7 @@ If you want to edit and include more fields later, please read https://sequelize
 
 You can see this will be similar to models/user.js and you should update both of them whenever you need to edit some of them.
 
-Currently, your database (database.db) will be empty. For our migraiton file and model/user.js file is ready, we can use the command you can see at the database.
+Currently, your database (database.db) will be empty. For our migration file and model/user.js file is ready, we can use the command you can see at the database.
 
 ```console
 $yarn sqlite-upgrade
@@ -204,7 +205,7 @@ Everything is ready to test the repository, we can finally see how to test the a
 
 ## Test the frontend and FaceIO authentication process
 
-![app/auth](./examples/app/auth.png)
+![app/auth](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/app/auth.png)
 
 You can use the `$yarn dev` and it will show the page similar to this at your localhost.
 
@@ -218,7 +219,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 
 import { validateName, validateEmail } from "../validateUser";
-import { useAuthentication } from "../contexts/authenticaiton";
+import { useAuthentication } from "../contexts/authentication";
 
 export default function Home() {
   const router = useRouter();
@@ -419,11 +420,11 @@ export const AuthenticationProvider = ({ children }) => {
 export const useAuthentication = () => useContext(AuthenticationContext);
 ```
 
-There are many lines of code but most of them are from [the getting started doc from FACEIO](https://faceio.net/getting-started) webiste. They are modified and included at context/authentication.tsx with React provider API to help you use it inside React app.
+There are many lines of code but most of them are from [the getting started doc from FACEIO](https://faceio.net/getting-started) website. They are modified and included at context/authentication.tsx with React provider API to help you use it inside React app.
 
 If you read the doc, you will find they give you **enrollNewUser, authenticateUser, restartSession and handleError** functions. You can think enrollUser to register, authenticateUser to login and restartSession is something you can use when one of them had any problem.
 
-In their official example, handleError logs a message to console but it is better to return value so you can reuse in somewwhere else easily later. Therefore, you can use this function instead with [react-toastify](https://www.npmjs.com/package/react-toastify) or others to show notifications.
+In their official example, handleError logs a message to console but it is better to return value so you can reuse in somewhere else easily later. Therefore, you can use this function instead with [react-toastify](https://www.npmjs.com/package/react-toastify) or others to show notifications.
 
 ```js
 const handlefaceIoError = (error) => {
@@ -479,17 +480,17 @@ I used locale to "en" for `faceIo.enroll` and `faceIo.authenticate` but you can 
 
 There are some details left but as this should be working already, please test the facial authentication process by clicking the sign in button if you haven't yet.
 
-![app/auth](./examples/app/auth.png)
+![app/auth](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/app/auth.png)
 
 You should type name and email field first and click the sign up button.
 
 For this example, you can use yours instead of Steadylearner and steady@learner.com at the page and you will see this.
 
-![app/preparement](./examples/app/preparement.png)
+![app/preparement](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/app/preparement.png)
 
 Then, you can agree to their terms.
 
-![app/terms](./examples/app/terms.png)
+![app/terms](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/app/terms.png)
 
 Then, you will need to allow them to use your camera for the facial authentication process.
 
@@ -497,7 +498,7 @@ You might be worried here but they will not share your image directly but use th
 
 Then, you will see this to save a pin as a safety method.
 
-![app/savepin](./examples/app/savepin.png)
+![app/savepin](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/app/savepin.png)
 
 You can use what you want and you will see some notificaitons from these before.
 
@@ -532,13 +533,13 @@ or you can visit https://console.faceio.net/dashboard to see more details at the
 
 When you sign in at the app, you will be redirected to profile page.
 
-![app/savepin](./examples/app/profile.png)
+![app/profile](https://raw.githubusercontent.com/steadylearner/faceio_example/main/examples/app/profile.png)
 
 It is almost same to the sign up page before but it is with Logout, DELETE ACCOUNT and UPDATE button to edit your name and email you used in the previous process.
 
 You will see what you used instead of Steadylearner and steady@learner.com and test with another name and email to update.
 
-For the purpose of this blog post is about explaining you how to use facial authentication with FaceIO, we will only have this feature for this app but you can use [Next js sqlize repository] as a reference to make more advanced examples.
+For the purpose of this blog post is about explaining you how to use facial authentication with FaceIO, we will only have this feature for this app but you can use [Next js sequelize repository] as a reference to make more advanced examples.
 
 You can also click LOGOUT button and you will be redirected to sign in again.
 
@@ -803,7 +804,7 @@ export default withNextCorsSessionRoute(async (req, res) => {
 
     if (usersUpdated === 0) {
       res.status(400).send({
-        error: "Unable to update the proifle"
+        error: "Unable to update the profile"
       });
     } else {
       const updatedUser = {
@@ -853,7 +854,7 @@ if (valid === true) {
 
 ## Conclusion
 
-I hope having this example and blog post was helpful to you start to testing the facial authenticaiton app with [FaceIO][FACEIO website].
+I hope having this example and blog post was helpful to you start to testing the facial authentication app with [FaceIO][FACEIO website].
 
 It will be also useful as a Next js and Sqlite full stack app example.
 
@@ -873,6 +874,3 @@ These are other blog posts and the docs that I thought can be useful. You can re
 * [How to use Facial Recognition to Enhance user Experience](https://sosha.hashnode.dev/how-to-use-facial-recognition-to-enhance-user-experience)
 
 * [How to Authenticate a User with Face Recognition in React.js](https://www.freecodecamp.org/news/authenticate-with-face-recognition-reactjs/)
-
-
-
