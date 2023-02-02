@@ -866,10 +866,13 @@ It will be also useful as a Next js and Sqlite full stack app example.
 
 These are other blog posts and the docs that I thought can be useful. You can read them if you want more details.
 
-[FaceIo dev guides](https://faceio.net/dev-guides)
-[How to Authenticate a User via Face Recognition in Your Web Application]https://hackernoon.com/how-to-authenticate-a-user-via-face-recognition-in-your-web-application
-[How to use Facial Recognition to Enhance user Experience ?]https://sosha.hashnode.dev/how-to-use-facial-recognition-to-enhance-user-experience 
-[How to Authenticate a User with Face Recognition in React.js]https://www.freecodecamp.org/news/authenticate-with-face-recognition-reactjs/
+* [FaceIo dev guides](https://faceio.net/dev-guides)
+
+* [How to Authenticate a User via Face Recognition in Your Web Application](https://hackernoon.com/how-to-authenticate-a-user-via-face-recognition-in-your-web-application)
+
+* [How to use Facial Recognition to Enhance user Experience](https://sosha.hashnode.dev/how-to-use-facial-recognition-to-enhance-user-experience)
+
+* [How to Authenticate a User with Face Recognition in React.js](https://www.freecodecamp.org/news/authenticate-with-face-recognition-reactjs/)
 
 
 
