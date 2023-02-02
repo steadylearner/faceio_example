@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import faceIO from '@faceio/fiojs';
 
 import { FACEIO_APPLICATION_PUBLIC_ID } from "../environment";
-import { apiLogin, apiLogout, apiRegister, register } from "../api/v1/user";
+import { apiLogin, apiLogout, apiRegister } from "../api/v1/user";
 import { UserValidationResult } from "../validateUser";
 
 const AuthenticationContext = createContext({});
@@ -117,7 +117,7 @@ export const AuthenticationProvider = ({ children }) => {
           window.location.reload();
         }, 6000);
       } else {
-        toast.error(registerResult.toString())
+        toast.error(UserValidationResult[registerResult])
       }
 
     } catch (error) {
