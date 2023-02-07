@@ -6,7 +6,7 @@
 
 [You can contact or hire me at Telegram.]: https://t.me/steadylearner
 
-# How to use CORS for all routes with Next js and session API
+# How to use CORS for all routes with Next js and browser session api
 
 In this post, you will learn how to use CORS with Next JS.
 
@@ -18,7 +18,7 @@ There was a package like [nextjs-cors] but it doesn't have an example to work fo
 
 You can see the official example from it below.
 
-```
+```ts
 import NextCors from 'nextjs-cors';
 
 async function handler(req, res) {
@@ -35,7 +35,7 @@ async function handler(req, res) {
 
 Not so complicated but you will see in [its issues page](https://github.com/yonycalsin/nextjs-cors/issues), some people wants to find a solution to use CORS for all routes but not responded yet currently.
 
-Therefore, I had to my own way for this so after a few seraches, I could find the working code for below. If you want more details, please read this file [withSession.ts](https://github.com/steadylearner/faceio_example/blob/main/src/withSession.ts) at GitHub.
+Therefore, I had to my own way for this so after a few searches, I could find the working code for below. If you want more details, please read this file [withSession.ts](https://github.com/steadylearner/faceio_example/blob/main/src/withSession.ts) at GitHub.
 
 ```ts
 import NextCors from 'nextjs-cors';
@@ -57,7 +57,7 @@ function withNextCors(
 }
 ```
 
-You can save the code above as withCors.ts or withNextCors.ts or something else and use it as a Next js api hanlders. [You can find some examples for it here.](https://github.com/steadylearner/faceio_example/tree/main/src/pages/api/v1/user)
+You can save the code above as withCors.ts or withNextCors.ts or something else and use it as a Next js api handlers. [You can find some examples for it here.](https://github.com/steadylearner/faceio_example/tree/main/src/pages/api/v1/user)
 
 [For example, you can use NextCors locally similar to the code snippet below and compare.](https://github.com/steadylearner/faceio_example/blob/main/src/pages/api/v1/user/register.ts)
 
